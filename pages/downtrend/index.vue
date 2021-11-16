@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="ma-5">
       <!--- input box --->
       <v-row>
         <v-col cols="12" sm="4" md="6">
@@ -9,11 +9,11 @@
                 <v-text-field v-model="interval" label="Intervals" placeholder="6" type="number" class="rounded-0" :rules="validation" outlined required></v-text-field>
                 <v-text-field v-model="invest" label="Base Investment" placeholder="100" type="number" class="rounded-0" :rules="validation" outlined required></v-text-field>
                 <v-text-field v-model="rate" label="Initial Rate" placeholder="0.01" type="number" class="rounded-0" :rules="validation" outlined required></v-text-field>
-                <v-text-field v-model="rateIncrement" label="Increment Rate" placeholder="0.001" type="number"  class="rounded-0" :rules="validation" outlined required></v-text-field>
+                <v-text-field v-model="rateDecrement" label="Decrement Rate" placeholder="0.001" type="number"  class="rounded-0" :rules="validation" outlined required></v-text-field>
                 <div class="white--text">
                   <v-btn type="submit" :disabled="!valid"
                   @click="validate"
-                  color="primary" block tile>Calculate</v-btn>
+                  block tile>Calculate</v-btn>
                 </div>
               </v-form>
           </v-card-text>
@@ -24,12 +24,12 @@
             <h3 class="pb-5">Results</h3>
             <p>Intervals : {{ this.data.interval }}</p>
             <p>Base Investment : {{ this.data.invest }}</p>
-            <p>Initial Rate : {{ this.data.rate }}</p>
-            <p>Rate On This Interval : {{ this.data.dayRate }}</p>
             <p>Total Investment : {{ this.data.total_Investment }}</p>
-            <p>Total TNBC : {{ this.data.total_crypto }}</p>
-            <p>Total Price : {{ this.data.sale_price }}</p>
-            <p>Profit : {{ this.data.profit }}</p>
+            <p>Initial Rate : {{ this.data.rate }}</p>
+            <p>Rate On {{ interval }}th Interval : {{ this.data.dayRate }}</p>
+            <p>Total TNBC On {{ interval }}th Interval : {{ this.data.total_crypto }}</p>
+            <p>Total Price On {{ interval }}th Interval : {{ this.data.sale_price }}</p>
+            <p>Total PNL : {{ this.data.profit }}</p>
           </v-card>
           <v-card class="pa-4" v-else>
             <h3 class="pb-5">Instructions</h3>
@@ -39,8 +39,8 @@
             <p>A fixed amount that you want to invest each time.</p>
             <h4>Initial Rate</h4>
             <p>The rate that you want to start the investment.</p>
-            <h4>Increment Rate</h4>
-            <p>It determines the next interval rate. For example: If initial rate is 0.01 and you want to invest again when the price will would be 0.011, than the increament rate would be 0.001. On each interval the rate would be increamented by 0.001 and the calculation would be based on this rate.</p>
+            <h4>Decrement Rate</h4>
+            <p>It determines the next interval rate. For example: If initial rate is 0.015 and you want to invest again when the price will be decreased to 0.014, than the decreament rate would be 0.001. On each interval the rate would be decreamented by 0.001 and the calculation would be done following this propotion.</p>
           </v-card>
         </v-col>
       </v-row>
@@ -55,7 +55,7 @@
             <v-divider class="mx-4" inset vertical></v-divider>
             <v-spacer></v-spacer>
             <v-divider class="mx-4" inset vertical></v-divider>
-            <v-btn color="cyan" small dark class="mb-2">Download PDF</v-btn>
+            <v-btn small class="mb-2">Download PDF</v-btn>
             <v-divider class="mx-4" inset vertical></v-divider>
           </v-toolbar>
           <!-- datatable -->                        
@@ -83,7 +83,7 @@ export default {
             interval: '',
             invest : '',
             rate : '',
-            rateIncrement : '',
+            rateDecrement : '',
             data: [],
             calculations:[],
             headers: [
@@ -107,7 +107,7 @@ export default {
         //
       },
       methods:{
-        blocks(interval, invest, rate, rateIncrement){
+        blocks(interval, invest, rate, rateDecrement){
           let blocks = [];
           let totalCrypto = 0;
           let totalInvest = 0;
@@ -127,16 +127,16 @@ export default {
             }
 
             blocks.push(obj);
-            rate = rate + rateIncrement;
+            rate = rate - rateDecrement;
           }
           return blocks;
         },
         validate () {
           this.$refs.form.validate()
         },
-        profit(interval, invest, rate, rateIncrement){
+        profit(interval, invest, rate, rateDecrement){
           let n = interval - 1;
-          let blocks = this.blocks(interval, invest, rate, rateIncrement);
+          let blocks = this.blocks(interval, invest, rate, rateDecrement);
           let block = blocks[n];
           let dayRate = block.rate;
           let totalCrypto = block.totalCrypto;
@@ -162,14 +162,14 @@ export default {
           const interval = Number(this.interval);
           const invest = Number(this.invest);
           const rate = Number(this.rate);
-          const rateIncrement = Number(this.rateIncrement);
+          const rateDecrement = Number(this.rateDecrement);
 
           // const interval = 2;
           // const invest = Number(100);
           // const rate = Number(0.01);
-          // const rateIncrement = Number(0.001);
+          // const rateDecrement = Number(0.001);
 
-          let profit = this.profit(interval, invest, rate, rateIncrement);
+          let profit = this.profit(interval, invest, rate, rateDecrement);
           this.data = profit;
           this.show = true;
         }

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="ma-5">
       <!--- input box --->
       <v-row>
         <v-col cols="12" sm="4" md="6">
@@ -13,7 +13,7 @@
                 <div class="white--text">
                   <v-btn type="submit" :disabled="!valid"
                   @click="validate"
-                  color="primary" block tile>Calculate</v-btn>
+                  block tile>Calculate</v-btn>
                 </div>
               </v-form>
           </v-card-text>
@@ -24,12 +24,12 @@
             <h3 class="pb-5">Results</h3>
             <p>Intervals : {{ this.data.interval }}</p>
             <p>Base Investment : {{ this.data.invest }}</p>
-            <p>Initial Rate : {{ this.data.rate }}</p>
-            <p>Rate On This Interval : {{ this.data.dayRate }}</p>
             <p>Total Investment : {{ this.data.total_Investment }}</p>
-            <p>Total TNBC : {{ this.data.total_crypto }}</p>
-            <p>Total Price : {{ this.data.sale_price }}</p>
-            <p>Profit : {{ this.data.profit }}</p>
+            <p>Initial Rate : {{ this.data.rate }}</p>
+            <p>Rate On {{ interval }}th Interval : {{ this.data.dayRate }}</p>
+            <p>Total TNBC On {{ interval }}th Interval : {{ this.data.total_crypto }}</p>
+            <p>Total Price On {{ interval }}th Interval : {{ this.data.sale_price }}</p>
+            <p>Total PNL : {{ this.data.profit }}</p>
           </v-card>
           <v-card class="pa-4" v-else>
             <h3 class="pb-5">Instructions</h3>
@@ -55,7 +55,7 @@
             <v-divider class="mx-4" inset vertical></v-divider>
             <v-spacer></v-spacer>
             <v-divider class="mx-4" inset vertical></v-divider>
-            <v-btn color="cyan" small dark class="mb-2">Download PDF</v-btn>
+            <v-btn small class="mb-2">Download PDF</v-btn>
             <v-divider class="mx-4" inset vertical></v-divider>
           </v-toolbar>
           <!-- datatable -->                        

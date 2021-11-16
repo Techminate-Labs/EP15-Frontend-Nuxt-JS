@@ -4,50 +4,30 @@
       fixed
       app
     >
-     <NuxtLink to="/" class="mr-2">
+      <NuxtLink to="/" class="mr-2">
         <v-img alt="logo" height="45" width="45" src="https://cdn-icons-png.flaticon.com/512/564/564429.png"></v-img>
       </NuxtLink>
-
       <v-spacer></v-spacer>
-  
-      <v-btn text>
-        <span>Home</span>         
-      </v-btn>
-     <v-btn text>
-        <span>About</span>         
-      </v-btn>
-      <v-btn text>
-        <span>Contact</span>         
-      </v-btn>
+      <NuxtLink to="/" class="ma-5">
+        <span class="grey--text">Home</span>
+      </NuxtLink>
+      <NuxtLink to="/about" class="ma-5">
+        <span class="grey--text">About</span>
+      </NuxtLink>
     </v-app-bar>
     <v-main>
-        <Nuxt />
+      <Nuxt />
     </v-main>
-    <v-footer
-    padless
+  <v-footer
     :absolute="!fixed"
     app
   >
     <v-row
-      justify="center"
+      justify="space-between"
       no-gutters
     >
-      <v-btn
-        v-for="link in links"
-        :key="link"
-        color="white"
-        text
-        rounded
-        class="my-2"
-      >
-        {{ link }}
-      </v-btn>
-      <v-col
-        class="py-4 text-center white--text"
-        cols="12"
-      >
-        {{ new Date().getFullYear() }} — <strong>Techminate</strong>
-      </v-col>
+      <strong>Powered By : Techminate</strong>
+      <strong>Copyright@Techminate {{ new Date().getFullYear() }} </strong>
     </v-row>
   </v-footer>
 
@@ -58,22 +38,13 @@
 export default {
   data () {
     return {
-      fixed: true,
-      links: [
-        'Home',
-        'About Us',
-        'Team',
-        'Services',
-        'Blog',
-        'Contact Us',
-      ],
-
+      fixed: false,
     }
   }
 }
 </script>
 <style>
   a {
-    text-decoration: none;   
-}
+    text-decoration: none;
+  }
 </style>

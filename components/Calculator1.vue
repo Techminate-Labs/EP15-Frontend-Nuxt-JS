@@ -2,17 +2,17 @@
   <div>
     <!---calculator--->
     <v-card class="pa-4" outlined tile >
-        <v-card-title align="center" justify="center">Calculator 1</v-card-title>
+        <v-card-title align="center" justify="center">Calculate FIAT</v-card-title>
         <v-card-text>
            <v-form v-model="valid" lazy-validation ref="form" @submit.prevent="calculate()" enctype="multipart/form-data">
-                <v-text-field v-model="amountofTNBC" label="Amount of TNBC" placeholder="6" type="number" class="rounded-0" :rules="validation" outlined required></v-text-field>
-                <v-text-field v-model="rate" label="Rate" placeholder="100" type="number" class="rounded-0" :rules="validation" outlined required></v-text-field>
+                <v-text-field v-model="amountOfTNBC" label="Amount of TNBC" placeholder="10000" type="number" class="rounded-0" :rules="validation" outlined required></v-text-field>
+                <v-text-field v-model="rate" label="Rate" placeholder="0.02" type="number" class="rounded-0" :rules="validation" outlined required></v-text-field>
                 <v-card-actions>
                     <v-list-item class="grow">
-                    <v-btn type="submit" :disabled="!valid" @click="validate" color="primary" tile>Calculate</v-btn>
-                    <v-row align="center" justify="end">     
-                        <span>Result: 100</span>
-                    </v-row>
+                      <v-row justify="space-between">     
+                        <v-btn type="submit" :disabled="!valid" @click="validate" tile>Calculate</v-btn>
+                        <v-btn v-if="result != null">Total : {{ result }}</v-btn>
+                      </v-row>
                     </v-list-item>
                 </v-card-actions>
             </v-form>
@@ -23,20 +23,31 @@
 </template>
 
 <script>
-  import Vue from 'vue'
-  export default Vue.extend({  
-        components: {
-        
-      },
+  export default{  
       data () {
         return {
+          amountOfTNBC:'',
+          rate:'',
+          result: null,
           valid: true,
           validation: [
               v => !!v || 'This field is required',
             ],
         }
       },
-  }) 
+      methods:{
+        validate () {
+          this.$refs.form.validate()
+        },
+        calculate(){
+          console.log("ok");
+          const tnbc = Number(this.amountOfTNBC);
+          const rate = Number(this.rate);
+          let total = tnbc * rate;
+          this.result = total.toFixed(4);
+        }
+      }
+  } 
 </script>
 
 <style>
