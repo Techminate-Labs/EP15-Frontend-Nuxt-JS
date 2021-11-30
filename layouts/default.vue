@@ -11,9 +11,6 @@
       <NuxtLink to="/" class="ma-5">
         <span class="grey--text">Home</span>
       </NuxtLink>
-      <NuxtLink to="/about" class="ma-5">
-        <span class="grey--text">About</span>
-      </NuxtLink>
     </v-app-bar>
     <v-main>
       <Nuxt />
@@ -26,7 +23,7 @@
       justify="space-between"
       no-gutters
     >
-      <strong>Powered By : Techminate</strong>
+      <strong>Developed By : Techminate</strong>
       <strong>Copyright@Techminate {{ new Date().getFullYear() }} </strong>
     </v-row>
   </v-footer>

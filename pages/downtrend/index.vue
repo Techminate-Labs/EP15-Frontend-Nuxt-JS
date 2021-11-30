@@ -2,24 +2,48 @@
     <div class="ma-5">
       <!--- input box --->
       <v-row>
-        <v-col cols="12" sm="4" md="6">
-        <v-card>
+        <v-col cols="12" sm="12" md="6" lg="6" xl="6">
+          <v-card class="text-center" v-if="show">
+            <v-card-text>
+              <v-sparkline
+                :labels="labels"
+                :value="value"
+                :gradient="gradient"
+                :smooth="radius || false"
+                :padding="padding"
+                :line-width="width"
+                :stroke-linecap="lineCap"
+                :gradient-direction="gradientDirection"
+                :fill="fill"
+                :type="type"
+                :auto-line-width="autoLineWidth"
+                auto-draw
+              ></v-sparkline>
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-text>
+              <div class="pt-5 pb-5 text-h5 font-weight-thin">
+                Total TNBC On  Each Interval
+              </div>
+            </v-card-text>
+          </v-card>
+        <v-card v-else>
           <v-card-text>
-              <v-form v-model="valid" lazy-validation ref="form" @submit.prevent="calculate()" enctype="multipart/form-data">
-                <v-text-field v-model="interval" label="Intervals" placeholder="6" type="number" class="rounded-0" :rules="validation" outlined required></v-text-field>
-                <v-text-field v-model="invest" label="Base Investment" placeholder="100" type="number" class="rounded-0" :rules="validation" outlined required></v-text-field>
-                <v-text-field v-model="rate" label="Initial Rate" placeholder="0.01" type="number" class="rounded-0" :rules="validation" outlined required></v-text-field>
-                <v-text-field v-model="rateDecrement" label="Decrement Rate" placeholder="0.001" type="number"  class="rounded-0" :rules="validation" outlined required></v-text-field>
-                <div class="white--text">
-                  <v-btn type="submit" :disabled="!valid"
-                  @click="validate"
-                  block tile>Calculate</v-btn>
-                </div>
-              </v-form>
+            <v-form v-model="valid" lazy-validation ref="form" @submit.prevent="calculate()" enctype="multipart/form-data">
+              <v-text-field v-model="interval" label="Intervals" placeholder="6" type="number" class="rounded-0" :rules="validation" outlined required></v-text-field>
+              <v-text-field v-model="invest" label="Base Investment" placeholder="100" type="number" class="rounded-0" :rules="validation" outlined required></v-text-field>
+              <v-text-field v-model="rate" label="Initial Rate" placeholder="0.01" type="number" class="rounded-0" :rules="validation" outlined required></v-text-field>
+              <v-text-field v-model="rateDecrement" label="Decrement Rate" placeholder="0.001" type="number"  class="rounded-0" :rules="validation" outlined required></v-text-field>
+              <div class="white--text">
+                <v-btn type="submit" :disabled="!valid"
+                @click="validate"
+                block tile>Calculate</v-btn>
+              </div>
+            </v-form>
           </v-card-text>
         </v-card>
         </v-col>
-        <v-col cols="12" sm="4" md="6">
+        <v-col cols="12" sm="12" md="6" lg="6" xl="6">
           <v-card class="pa-4" v-if="show">
             <h3 class="pb-5">Results</h3>
             <p>Intervals : {{ this.data.interval }}</p>
@@ -54,6 +78,8 @@
             <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" color="deep-purple" single-line hide-details ></v-text-field>
             <v-divider class="mx-4" inset vertical></v-divider>
             <v-spacer></v-spacer>
+             <v-divider class="mx-4" inset vertical></v-divider>
+            <v-btn small class="mb-2" @click="clear()">Clear</v-btn>
             <v-divider class="mx-4" inset vertical></v-divider>
             <v-btn small class="mb-2">Download PDF</v-btn>
             <v-divider class="mx-4" inset vertical></v-divider>
@@ -73,9 +99,30 @@
 </template>
 
 <script>
+const gradients = [
+    ['#222'],
+    ['#42b3f4'],
+    ['red', 'orange', 'yellow'],
+    ['purple', 'violet'],
+    ['#00c6ff', '#F0F', '#FF0'],
+    ['#f72047', '#ffd200', '#1feaea'],
+  ]
 export default {
      data () {
           return {
+            width: 2,
+            radius: 10,
+            padding: 8,
+            lineCap: 'round',
+            gradient: gradients[5],
+            labels: [],
+            value: [],
+            gradientDirection: 'top',
+            gradients,
+            fill: true,
+            type: 'bar',
+            autoLineWidth: false,
+
             valid: true,
             show:false,
             search: '',
@@ -100,13 +147,14 @@ export default {
          }
           
       },
-      mounted() {
-        //
-      },
-      created() {
-        //
-      },
       methods:{
+         clear(){
+          console.log('clear');
+          this.data = [];
+          this.labels = [];
+          this.value = [];
+          this.show = false;
+        },
         blocks(interval, invest, rate, rateDecrement){
           let blocks = [];
           let totalCrypto = 0;
@@ -116,17 +164,20 @@ export default {
             let tnbc = invest / rate;
             totalCrypto = totalCrypto + tnbc;
             totalInvest = totalInvest + invest
+            let floatRate = rate.toFixed(3);
 
             let obj = {
-                "interval" : i,
-                "invest" : invest,
-                "rate" : rate.toFixed(3),
-                "tnbc" : tnbc.toFixed(3),
-                "totalCrypto" : totalCrypto.toFixed(3),
-                "totalInvest" : totalInvest
+              "interval" : i,
+              "invest" : invest,
+              "rate" : floatRate,
+              "tnbc" : tnbc.toFixed(3),
+              "totalCrypto" : totalCrypto.toFixed(3),
+              "totalInvest" : totalInvest
             }
 
             blocks.push(obj);
+            this.labels.push(floatRate);
+            this.value.push(totalCrypto);
             rate = rate - rateDecrement;
           }
           return blocks;

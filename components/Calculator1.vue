@@ -2,7 +2,7 @@
   <div>
     <!---calculator--->
     <v-card class="pa-4" outlined tile >
-        <v-card-title align="center" justify="center">Calculate FIAT</v-card-title>
+        <v-card-title align="center" justify="center">TNBC to USD</v-card-title>
         <v-card-text>
            <v-form v-model="valid" lazy-validation ref="form" @submit.prevent="calculate()" enctype="multipart/form-data">
                 <v-text-field v-model="amountOfTNBC" label="Amount of TNBC" placeholder="10000" type="number" class="rounded-0" :rules="validation" outlined required></v-text-field>
@@ -11,7 +11,7 @@
                     <v-list-item class="grow">
                       <v-row justify="space-between">     
                         <v-btn type="submit" :disabled="!valid" @click="validate" tile>Calculate</v-btn>
-                        <v-btn v-if="result != null">Total : {{ result }}</v-btn>
+                        <v-btn v-if="result != null">Total : {{ result }} USD</v-btn>
                       </v-row>
                     </v-list-item>
                 </v-card-actions>

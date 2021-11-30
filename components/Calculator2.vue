@@ -2,16 +2,16 @@
   <div>
     <!---calculator 2--->
     <v-card class="pa-4" outlined tile >
-        <v-card-title align="center" justify="center">Calculate TNBC</v-card-title>
+        <v-card-title align="center" justify="center">USD to TNBC</v-card-title>
             <v-card-text>
             <v-form v-model="valid" lazy-validation ref="form" @submit.prevent="calculate()" enctype="multipart/form-data">
-                <v-text-field v-model="amountOfMoney" label="Amount of FIAT" placeholder="100" type="number" class="rounded-0" :rules="validation" outlined required></v-text-field>
+                <v-text-field v-model="amountOfMoney" label="Amount of USD" placeholder="100" type="number" class="rounded-0" :rules="validation" outlined required></v-text-field>
                 <v-text-field v-model="rate" label="Rate" placeholder="0.02" type="number" class="rounded-0" :rules="validation" outlined required></v-text-field>
                 <v-card-actions>
                   <v-list-item class="grow">
                     <v-row justify="space-between">     
                       <v-btn type="submit" :disabled="!valid" @click="validate" tile>Calculate</v-btn>
-                      <v-btn v-if="result != null">Total : {{ result }}</v-btn>
+                      <v-btn v-if="result != null">Total : {{ result }} TNBC</v-btn>
                     </v-row>
                   </v-list-item>
                 </v-card-actions>
