@@ -23,8 +23,12 @@
       justify="space-between"
       no-gutters
     >
-      <strong>Developed By : Techminate</strong>
+    <a href="http://techminate.com/" target="_blank" style="text-decoration:none; color:white">
+      <strong>Developed By : Techminate </strong>
+    </a>
+    <a href="http://techminate.com/" target="_blank" style="text-decoration:none; color:white">
       <strong>Copyright@Techminate {{ new Date().getFullYear() }} </strong>
+    </a>
     </v-row>
   </v-footer>
 
