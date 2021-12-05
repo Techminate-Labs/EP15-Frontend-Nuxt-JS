@@ -81,7 +81,7 @@
             <v-divider class="mx-4" inset vertical></v-divider>
             <v-btn small class="mb-2" @click="clear()">Clear</v-btn>
             <v-divider class="mx-4" inset vertical></v-divider>
-            <v-btn small class="mb-2">Download PDF</v-btn>
+            <v-btn small class="mb-2"><v-icon>mdi-arrow-down-bold-box-outline</v-icon></v-btn>
             <v-divider class="mx-4" inset vertical></v-divider>
           </v-toolbar>
           <!-- datatable -->                        

@@ -12,7 +12,7 @@
         <span class="grey--text">Home</span>
       </NuxtLink>
     </v-app-bar>
-    <v-main>
+    <v-main class="mb-5">
       <Nuxt />
     </v-main>
   <v-footer

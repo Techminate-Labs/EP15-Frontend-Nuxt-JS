@@ -4,7 +4,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - EP-15',
-    title: 'EP-15',
+    title: 'TNBCalculator',
     htmlAttrs: {
       lang: 'en'
     },
